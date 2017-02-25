@@ -7414,8 +7414,6 @@ message MetricsEvent {
     // Note: Gear icon is shown next to gesture navigation preference and opens sensitivity dialog
     SETTINGS_GESTURE_NAV_BACK_SENSITIVITY_DLG = 1748;
 
-
-
     // ACTION: Chooser > User taps a system-provided target such as copy
     //   SUBTYPE: Index of target
     // CATEGORY: GLOBAL_SYSTEM_UI
@@ -7437,5 +7435,9 @@ message MetricsEvent {
     PANEL_MOBILE_DATA = 2002;
     // Panel for Bluetooth
     PANEL_BLUETOOTH = 2003;
+
+    // Omni Metrics
+    OMNI_QS_WEATHER = 1151;
+    OMNI_QS_WEATHER_DETAILS = 1152;
   }
 }
