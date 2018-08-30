@@ -6751,6 +6751,17 @@ public final class Settings {
         public static final String STATUS_BAR_SHOW_WEATHER_TEMP = "status_bar_show_weather_temp";
 
         /**
+         * @hide
+         */
+        public static final String OMNI_LOCKSCREEN_WEATHER_ENABLED = "lockscreen_weather_enabled";
+
+        /**
+         * @hide
+         */
+        private static final Validator OMNI_LOCKSCREEN_WEATHER_ENABLED_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -6908,7 +6919,7 @@ public final class Settings {
             NOTIFICATION_HEADERS,
             HIDE_SMART_REPLIES,
             STATUS_BAR_BATTERY_CHARGING_BOLT,
-            // TitaniumOS Settings end
+            OMNI_LOCKSCREEN_WEATHER_ENABLED,
         };
 
         /**
@@ -7155,7 +7166,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_PANEL_BG_USE_FW);
             PRIVATE_SETTINGS.add(QS_PANEL_BG_USE_NEW_TINT);
             PRIVATE_SETTINGS.add(HIDE_SMART_REPLIES);
-            //TitaniumOS Settings end
+            PRIVATE_SETTINGS.add(OMNI_LOCKSCREEN_WEATHER_ENABLED);
         }
 
         /**
@@ -7378,7 +7389,7 @@ public final class Settings {
             VALIDATORS.put(NOTIFICATION_HEADERS, NOTIFICATION_HEADERS_VALIDATOR);
             VALIDATORS.put(HIDE_SMART_REPLIES, HIDE_SMART_REPLIES_VALIDATOR);
             VALIDATORS.put(STATUS_BAR_BATTERY_CHARGING_BOLT, STATUS_BAR_BATTERY_CHARGING_BOLT_VALIDATOR);
-            // TitaniumOS Settings end
+            VALIDATORS.put(OMNI_LOCKSCREEN_WEATHER_ENABLED, OMNI_LOCKSCREEN_WEATHER_ENABLED_VALIDATOR);
         }
 
         /**
