@@ -6751,6 +6751,14 @@ public final class Settings {
         public static final String STATUS_BAR_SHOW_WEATHER_TEMP = "status_bar_show_weather_temp";
 
         /**
+         * Show Weather on
+         * 0 - Statusbar (default)
+         * 1 - QS Header
+         * @hide
+         */
+        public static final String STATUS_BAR_SHOW_WEATHER_LOCATION = "status_bar_show_weather_location";
+
+        /**
          * @hide
          */
         public static final String OMNI_LOCKSCREEN_WEATHER_ENABLED = "lockscreen_weather_enabled";
@@ -6857,17 +6865,17 @@ public final class Settings {
         public static final String LOCK_SCREEN_WEATHER_ICON_COLOR = "lock_screen_weather_icon_color";
 
         /**
-	 ** Change fonts for the system lockscreen weather temperature
-	 **
-	 ** @hide
-	 **/
+     ** Change fonts for the system lockscreen weather temperature
+     **
+     ** @hide
+     **/
          public static final String LOCK_WEATHER_TEMP_FONTS = "lock_weather_temp_fonts";
 
         /**
-	 ** Change fonts for the system lockscreen weather city
-	 **
-	 ** @hide
-	 **/
+     ** Change fonts for the system lockscreen weather city
+     **
+     ** @hide
+     **/
          public static final String LOCK_WEATHER_CITY_FONTS = "lock_weather_city_fonts";
 
         /**
@@ -7032,7 +7040,7 @@ public final class Settings {
             AICP_LOCKSCREEN_WEATHER_STYLE,
             LOCKSCREEN_WEATHER_SHOW_TEMP,
             LOCKSCREEN_WEATHER_SHOW_CITY,
-	        LOCKSCREEN_WEATHER_SHOW_IMAGE,
+            LOCKSCREEN_WEATHER_SHOW_IMAGE,
         };
 
         /**
@@ -7283,7 +7291,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(AICP_LOCKSCREEN_WEATHER_STYLE);
             PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_TEMP);
             PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_CITY);
-	        PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_IMAGE);
+            PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_IMAGE);
         }
 
         /**
@@ -7510,7 +7518,7 @@ public final class Settings {
             VALIDATORS.put(AICP_LOCKSCREEN_WEATHER_STYLE,AICP_LOCKSCREEN_WEATHER_STYLE_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_WEATHER_SHOW_TEMP, LOCKSCREEN_WEATHER_SHOW_TEMP_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_WEATHER_SHOW_CITY, LOCKSCREEN_WEATHER_SHOW_CITY_VALIDATOR);
-	        VALIDATORS.put(LOCKSCREEN_WEATHER_SHOW_IMAGE, LOCKSCREEN_WEATHER_SHOW_IMAGE_VALIDATOR);
+            VALIDATORS.put(LOCKSCREEN_WEATHER_SHOW_IMAGE, LOCKSCREEN_WEATHER_SHOW_IMAGE_VALIDATOR);
         }
 
         /**
