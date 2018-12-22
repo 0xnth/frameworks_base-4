@@ -92,6 +92,7 @@ public class KeyguardStatusView extends GridLayout implements
     private boolean mShowingHeader;
     private CurrentWeatherView mWeatherView;
     private boolean mShowWeather;
+    private boolean mOmniStyle;
 
     private int mClockSelection;
     private int mDateSelection;
@@ -244,6 +245,7 @@ public class KeyguardStatusView extends GridLayout implements
         refreshOwnerInfoFont();
 
         mWeatherView = (CurrentWeatherView) findViewById(R.id.weather_container);
+        updateSettings();
 
         mTextColor = mClockView.getCurrentTextColor();
 
@@ -256,7 +258,7 @@ public class KeyguardStatusView extends GridLayout implements
         updateOwnerInfo();
         updateLogoutView();
         updateDark();
-        updateSettings();
+
     }
 
     public KeyguardSliceView getKeyguardSliceView() {
@@ -846,12 +848,16 @@ public class KeyguardStatusView extends GridLayout implements
                 Settings.System.OMNI_LOCKSCREEN_WEATHER_ENABLED, 0,
                 UserHandle.USER_CURRENT) == 1;
 
+        mOmniStyle = Settings.System.getIntForUser(resolver,
+                Settings.System.AICP_LOCKSCREEN_WEATHER_STYLE, 0,
+                UserHandle.USER_CURRENT) == 0;
+
         if (mWeatherView != null) {
-            if (mShowWeather) {
+            if (mShowWeather && mOmniStyle) {
                 mWeatherView.setVisibility(View.VISIBLE);
                 mWeatherView.enableUpdates();
             }
-            if (!mShowWeather) {
+            if (!mShowWeather || !mOmniStyle) {
                 mWeatherView.setVisibility(View.GONE);
                 mWeatherView.disableUpdates();
             }
@@ -1020,7 +1026,7 @@ public class KeyguardStatusView extends GridLayout implements
         }
         mPulsing = pulsing;
         if (mWeatherView != null) {
-            mWeatherView.setVisibility((mShowWeather && !mPulsing) ? View.VISIBLE : View.GONE);
+            mWeatherView.setVisibility((mShowWeather && mOmniStyle) ? View.VISIBLE : View.GONE);
         }
     }
 
