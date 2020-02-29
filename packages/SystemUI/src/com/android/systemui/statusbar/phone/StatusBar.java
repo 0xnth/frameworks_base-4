@@ -4603,6 +4603,15 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_OFF_FOD),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LONG_BACK_SWIPE_TIMEOUT),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LEFT_LONG_BACK_SWIPE_ACTION),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.RIGHT_LONG_BACK_SWIPE_ACTION),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -4669,6 +4678,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             setMediaHeadsup();
             updateQSPanel();
             updateAODDimView();
+            setGestureNavOptions();
         }
     }
 
@@ -4790,6 +4800,12 @@ public class StatusBar extends SystemUI implements DemoMode,
     private void updateAODDimView() {
         mAODDimView.setEnabled(Settings.System.getIntForUser(mContext.getContentResolver(),
             Settings.System.SCREEN_OFF_FOD, 0, UserHandle.USER_CURRENT) != 0);
+    }
+
+    private void setGestureNavOptions() {
+        if (getNavigationBarView() != null) {
+            getNavigationBarView().setLongSwipeOptions();
+        }
     }
 
     public int getWakefulnessState() {
