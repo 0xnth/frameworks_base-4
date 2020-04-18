@@ -166,6 +166,10 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
         NotificationListContainer, ConfigurationListener, Dumpable,
         DynamicPrivacyController.Listener {
 
+    public static final String LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED =
+            "system:" +
+            Settings.System.LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED;
+
     public static final float BACKGROUND_ALPHA_DIMMED = 0.7f;
     private static final String TAG = "StackScroller";
     private static final boolean DEBUG = false;
@@ -192,6 +196,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
     private final Paint mBackgroundPaint = new Paint();
     private final boolean mShouldDrawNotificationBackground;
     private boolean mHighPriorityBeforeSpeedBump;
+    private boolean mTranslucentNotificationsBgEnabled;
     private final boolean mAllowLongPress;
     private boolean mDismissRtl;
 
@@ -602,8 +607,11 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
                 mHighPriorityBeforeSpeedBump = "1".equals(newValue);
             } else if (key.equals(Settings.Secure.NOTIFICATION_DISMISS_RTL)) {
                 updateDismissRtlSetting("1".equals(newValue));
+            } else if (key.equals(LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED)) {
+                mTranslucentNotificationsBgEnabled = "1".equals(newValue);
             }
-        }, HIGH_PRIORITY, Settings.Secure.NOTIFICATION_DISMISS_RTL);
+        }, HIGH_PRIORITY, Settings.Secure.NOTIFICATION_DISMISS_RTL,
+                LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED);
 
         mEntryManager.addNotificationEntryListener(new NotificationEntryListener() {
             @Override
@@ -1006,6 +1014,10 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
         float colorInterpolation = MathUtils.smoothStep(0.4f /* start */, 1f /* end */,
                 mLinearHideAmount);
         int color = ColorUtils.blendARGB(mBgColor, Color.WHITE, colorInterpolation);
+
+        if (mTranslucentNotificationsBgEnabled && onKeyguard()) {
+            color &= 0x66FFFFFF;
+        }
 
         if (mCachedBackgroundColor != color) {
             mCachedBackgroundColor = color;
