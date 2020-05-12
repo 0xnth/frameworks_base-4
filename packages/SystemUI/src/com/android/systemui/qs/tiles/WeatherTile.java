@@ -44,7 +44,7 @@ import android.widget.Toast;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
-import com.android.internal.util.arrow.ArrowUtils;
+import com.android.internal.util.titanium.TitaniumUtils;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.plugins.ActivityStarter;
@@ -179,7 +179,7 @@ public class WeatherTile extends QSTileImpl<BooleanState> implements OmniJawsCli
     @Override
     public Intent getLongClickIntent() {
         if (DEBUG) Log.d(TAG, "getLongClickIntent");
-        if (ArrowUtils.isPackageInstalled(mContext, "com.google.android.googlequicksearchbox")) {
+        if (TitaniumUtils.isPackageInstalled(mContext, "com.google.android.googlequicksearchbox")) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("dynact://velour/weather/ProxyActivity"));
             intent.setComponent(new ComponentName("com.google.android.googlequicksearchbox",

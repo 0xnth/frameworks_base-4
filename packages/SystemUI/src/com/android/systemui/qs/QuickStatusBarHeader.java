@@ -172,10 +172,10 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                     Settings.System.STATUS_BAR_CUSTOM_HEADER_HEIGHT), false,
                     this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUS_BAR_CUSTOM_HEADER_IMAGE), false,
+                    .getUriFor(Settings.System.OMNI_STATUS_BAR_CUSTOM_HEADER_IMAGE), false,
                     this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUS_BAR_FILE_HEADER_IMAGE), false,
+                    .getUriFor(Settings.System.OMNI_STATUS_BAR_FILE_HEADER_IMAGE), false,
                     this, UserHandle.USER_ALL);
             }
 
@@ -674,10 +674,10 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                 Settings.System.OMNI_STATUS_BAR_CUSTOM_HEADER, 0,
                 UserHandle.USER_CURRENT) == 1;
         mCustomHeaderImage = Settings.System.getStringForUser(getContext().getContentResolver(),
-                Settings.System.STATUS_BAR_CUSTOM_HEADER_IMAGE,
+                Settings.System.OMNI_STATUS_BAR_CUSTOM_HEADER_IMAGE,
                 UserHandle.USER_CURRENT);
         mCustomHeaderFile = Settings.System.getStringForUser(getContext().getContentResolver(),
-                Settings.System.STATUS_BAR_FILE_HEADER_IMAGE,
+                Settings.System.OMNI_STATUS_BAR_FILE_HEADER_IMAGE,
                 UserHandle.USER_CURRENT);
         int mImageHeight = Settings.System.getIntForUser(getContext().getContentResolver(),
                 Settings.System.STATUS_BAR_CUSTOM_HEADER_HEIGHT, 25,

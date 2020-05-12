@@ -6264,16 +6264,6 @@ public final class Settings {
         public static final String SHOW_MEDIA_HEADS_UP = "show_media_heads_up";
 
         /**
-         * Whether to display status area (date & weather information) on the cLock
-         * @hide
-         */
-        public static final String CLOCK_SHOW_STATUS_AREA = "clock_show_status_area";
-
-        /** @hide */
-        private static final Validator CLOCK_SHOW_STATUS_AREA_VALIDATOR =
-               BOOLEAN_VALIDATOR;
-
-        /**
          * @hide
          */
         public static final String FORCE_SHOW_NAVBAR = "navigation_bar_show_new";
@@ -7025,7 +7015,6 @@ public final class Settings {
             SHOW_QS_CLOCK,
             BACK_GESTURE_BLOCK_IME,
             NAVIGATION_HANDLE_WIDTH,
-            CLOCK_SHOW_STATUS_AREA,
             FORCE_SHOW_NAVBAR,
             ANSWER_VOLUME_BUTTON_BEHAVIOR_ANSWER,
             QS_PANEL_BG_COLOR,
@@ -7257,7 +7246,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUS_BAR_CUSTOM_HEADER_HEIGHT);
             PRIVATE_SETTINGS.add(BACK_GESTURE_BLOCK_IME);
             PRIVATE_SETTINGS.add(NAVIGATION_HANDLE_WIDTH);
-            PRIVATE_SETTINGS.add(CLOCK_SHOW_STATUS_AREA);
             PRIVATE_SETTINGS.add(FORCE_SHOW_NAVBAR);
             PRIVATE_SETTINGS.add(KEY_HOME_LONG_PRESS_ACTION);
             PRIVATE_SETTINGS.add(KEY_HOME_LONG_PRESS_ACTION_NAVBAR);
@@ -7483,7 +7471,6 @@ public final class Settings {
             VALIDATORS.put(SHOW_QS_CLOCK, SHOW_QS_CLOCK_VALIDATOR);
             VALIDATORS.put(BACK_GESTURE_BLOCK_IME,BACK_GESTURE_BLOCK_IME_VALIDATOR);
             VALIDATORS.put(NAVIGATION_HANDLE_WIDTH, NAVIGATION_HANDLE_WIDTH_VALIDATOR);
-            VALIDATORS.put(CLOCK_SHOW_STATUS_AREA, CLOCK_SHOW_STATUS_AREA_VALIDATOR);
             VALIDATORS.put(FORCE_SHOW_NAVBAR, FORCE_SHOW_NAVBAR_VALIDATOR);
             VALIDATORS.put(KEY_HOME_LONG_PRESS_ACTION, KEY_HOME_LONG_PRESS_ACTION_VALIDATOR);
             VALIDATORS.put(KEY_HOME_LONG_PRESS_ACTION_NAVBAR, KEY_HOME_LONG_PRESS_ACTION_NAVBAR_VALIDATOR);

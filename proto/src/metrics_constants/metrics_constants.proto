@@ -7437,7 +7437,7 @@ message MetricsEvent {
     PANEL_BLUETOOTH = 2003;
 
     // Omni Metrics
-    OMNI_QS_WEATHER = 1151;
-    OMNI_QS_WEATHER_DETAILS = 1152;
+    OMNI_QS_WEATHER = 1152;
+    OMNI_QS_WEATHER_DETAILS = 1153;
   }
 }
