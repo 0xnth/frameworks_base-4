@@ -265,12 +265,6 @@
     <!-- Doze Intents -->
     <protected-broadcast android:name="com.android.systemui.doze.pulse" />
 
-    <!-- Pixel Live Wallpapers -->
-    <protected-broadcast android:name="com.breel.wallpapers.NOTIFICATION_RECEIVED"/>
-    <permission android:name="com.breel.wallpapers.notifications"/>
-    <uses-permission android:name="com.breel.wallpapers.notifications"/>
-    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
-
     <!-- Sync tile -->
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
@@ -726,7 +720,6 @@
                   android:enabled="false">
         </provider>
 
-        <provider android:name="com.google.android.systemui.keyguard.KeyguardSliceProviderGoogle"
         <provider android:name=".keyguard.KeyguardSliceProvider"
                   android:authorities="com.android.systemui.keyguard"
                   android:grantUriPermissions="true"
