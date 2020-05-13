@@ -203,11 +203,11 @@ public class EdgeBackGestureHandler implements DisplayListener, TunerService.Tun
 
     private Handler mHandler;
     private AssistManager mAssistManager;
-    private int mTImeout = 3000; //ms
+    private int mTimeout = 3000; //ms
+    private int mBackSwipeType;
     private int mLeftLongSwipeAction;
     private int mRightLongSwipeAction;
     private boolean mBlockNextEvent;
-    private boolean mIsExtendedSwipe;
 
     public EdgeBackGestureHandler(Context context, OverviewProxyService overviewProxyService) {
         final Resources res = context.getResources();
@@ -517,10 +517,10 @@ public class EdgeBackGestureHandler implements DisplayListener, TunerService.Tun
     }
 
     public void setLongSwipeOptions() {
-        mIsExtendedSwipe = Settings.System.getIntForUser(mContext.getContentResolver(),
-            Settings.System.BACK_SWIPE_EXTENDED, 0,
-            UserHandle.USER_CURRENT) != 0;
-        mTImeout = Settings.System.getIntForUser(mContext.getContentResolver(),
+        mBackSwipeType = Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.BACK_SWIPE_TYPE, 0,
+            UserHandle.USER_CURRENT);
+        mTimeout = Settings.System.getIntForUser(mContext.getContentResolver(),
             Settings.System.LONG_BACK_SWIPE_TIMEOUT, 2000,
             UserHandle.USER_CURRENT);
         mLeftLongSwipeAction = Settings.System.getIntForUser(mContext.getContentResolver(),
@@ -576,9 +576,9 @@ public class EdgeBackGestureHandler implements DisplayListener, TunerService.Tun
 
                     } else if (dx > dy && dx > mTouchSlop) {
                         mThresholdCrossed = true;
-                        if (!mIsExtendedSwipe && ((mLeftLongSwipeAction != 0 && mIsOnLeftEdge)
+                        if (mBackSwipeType == 0 && ((mLeftLongSwipeActio != 0 && mIsOnLeftEdge)
                                 || (mRightLongSwipeAction != 0 && !mIsOnLeftEdge))) {
-                            mHandler.postDelayed(mLongSwipeAction, (mTImeout - elapsedTime));
+                            mHandler.postDelayed(mLongSwipeAction, (mTimeout - elapsedTime));
                         }
                         // Capture inputs
                         mInputMonitor.pilferPointers();
@@ -594,7 +594,7 @@ public class EdgeBackGestureHandler implements DisplayListener, TunerService.Tun
             boolean isCancel = action == MotionEvent.ACTION_CANCEL;
             boolean isMove = action == MotionEvent.ACTION_MOVE;
 
-            if (isMove && mIsExtendedSwipe) {
+            if (isMove && mBackSwipeType == 1) {
                 float deltaX = Math.abs(ev.getX() - mDownPoint.x);
                 if (deltaX  > ((mDisplaySize.x / 4) * 3)) {
                     mLongSwipeAction.run();
