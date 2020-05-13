@@ -528,6 +528,9 @@ public class EdgeBackGestureHandler implements DisplayListener, TunerService.Tun
         mBackSwipeType = Settings.System.getIntForUser(mContext.getContentResolver(),
             Settings.System.BACK_SWIPE_TYPE, 0,
             UserHandle.USER_CURRENT);
+        if (mEdgePanel != null) {
+            mEdgePanel.setExtendedSwipe();
+        }
         mTimeout = Settings.System.getIntForUser(mContext.getContentResolver(),
             Settings.System.LONG_BACK_SWIPE_TIMEOUT, 2000,
             UserHandle.USER_CURRENT);
