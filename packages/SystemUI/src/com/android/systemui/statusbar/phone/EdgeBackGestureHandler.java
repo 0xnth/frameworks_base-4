@@ -702,6 +702,9 @@ public class EdgeBackGestureHandler implements DisplayListener, TunerService.Tun
             case 12: // Ringer modes
                 ActionUtils.toggleRingerModes(mContext);
                 break;
+            case 13: // Kill app
+                ActionUtils.killForegroundApp();
+                break;
         }
     }
 
