@@ -203,6 +203,14 @@ public class TitaniumUtils {
         return context.getResources().getBoolean(com.android.internal.R.bool.config_alt_ambient_display);
     }
 
+    // Check if gesture navbar is enabled
+    public static boolean isGestureNavbar() {
+        return TitaniumUtils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_narrow_back")
+                || TitaniumUtils.isThemeEnabled("com.android.internal.systemui.navbar.gestural")
+                || TitaniumUtils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_wide_back")
+                || TitaniumUtils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_extra_wide_back");
+    }
+
     // Check to see if device supports A/B (seamless) system updates
     public static boolean isABdevice(Context context) {
         return SystemProperties.getBoolean("ro.build.ab_update", false);
