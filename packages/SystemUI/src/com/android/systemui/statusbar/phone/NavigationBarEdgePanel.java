@@ -169,7 +169,6 @@ public class NavigationBarEdgePanel extends View {
      * True if the panel is currently on the left of the screen
      */
     private boolean mIsLeftPanel;
-
     private float mStartX;
     private float mStartY;
     private float mCurrentAngle;
@@ -182,11 +181,9 @@ public class NavigationBarEdgePanel extends View {
      * Where the arrow will be in the resting position.
      */
     private float mDesiredTranslation;
-
     private boolean mDragSlopPassed;
     private boolean mArrowsPointLeft;
     private float mMaxTranslation;
-    private float mLongSwipeThreshold;
     private boolean mTriggerBack;
     private boolean mAlmostLongSwipe;
     private int mBackSwipeType;
@@ -202,10 +199,8 @@ public class NavigationBarEdgePanel extends View {
     private float mDisappearAmount;
     private long mVibrationTime;
     private int mScreenSize;
-
     private boolean mBackHapticEnabled;
     private boolean mVibrateOnOpening;
-
     private boolean mIsLongSwipeEnabled;
 
     private DynamicAnimation.OnAnimationEndListener mSetGoneEndListener

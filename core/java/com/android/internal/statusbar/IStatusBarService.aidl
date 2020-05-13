@@ -37,6 +37,7 @@ interface IStatusBarService
     @UnsupportedAppUsage
     void collapsePanels();
     void togglePanel();
+    void toggleSettingsPanel();
     @UnsupportedAppUsage
     void disable(int what, IBinder token, String pkg);
     void disableForUser(int what, IBinder token, String pkg, int userId);
@@ -117,7 +118,6 @@ interface IStatusBarService
     void hideInDisplayFingerprintView();
 
     /**
-     * Titanium utils
      */
     void toggleCameraFlash();
     void toggleRecentApps();
@@ -126,7 +126,5 @@ interface IStatusBarService
     void cancelPreloadRecentApps();
     void startAssist(in Bundle args);
     void killForegroundApp();
-
-    // Used to block or unblock usage of gestural navigation
     void setBlockedGesturalNavigation(boolean blocked);
 }

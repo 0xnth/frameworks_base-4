@@ -128,7 +128,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 
-
 /**
  * POD used in the AsyncTask which saves an image in the background.
  */

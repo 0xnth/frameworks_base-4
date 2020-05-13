@@ -213,7 +213,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.autofill.AutofillManagerInternal;
-import android.widget.Toast;
 
 import com.android.internal.R;
 import com.android.internal.accessibility.AccessibilityShortcutController;
@@ -252,7 +251,6 @@ import com.android.server.wm.DisplayPolicy;
 import com.android.server.wm.DisplayRotation;
 import com.android.server.wm.WindowManagerInternal;
 import com.android.server.wm.WindowManagerInternal.AppTransitionListener;
-import android.provider.Settings;
 
 import dalvik.system.PathClassLoader;
 
@@ -554,8 +552,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private boolean mHandleVolumeKeysInWM;
 
-    boolean mKillAppLongpressBack;
-    int mBackKillTimeout;
     int mDeviceHardwareKeys;
     boolean mHasNavigationBar = false;
 
@@ -909,7 +905,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     break;
                 }
                 case MSG_TOGGLE_TORCH:
-                    TitaniumUtils.toggleCameraFlash();
+                    toggleTorch();
                     break;
                 case MSG_CAMERA_LONG_PRESS:
                     KeyEvent event = (KeyEvent) msg.obj;
@@ -1002,9 +998,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HAPTIC_ON_ACTION_KEY), false, this,
-                    UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.Secure.KILL_APP_LONGPRESS_BACK), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KEY_HOME_LONG_PRESS_ACTION), false, this,
@@ -1509,9 +1502,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private void powerMultiPressAction(long eventTime, boolean interactive, int behavior) {
         switch (behavior) {
             case MULTI_PRESS_POWER_NOTHING:
-                if ((!isScreenOn() || isDozeMode())) {
-                    TitaniumUtils.toggleCameraFlash();
-                }
                 break;
             case MULTI_PRESS_POWER_THEATER_MODE:
                 if (!isUserSetupComplete()) {
@@ -1812,15 +1802,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private final ScreenshotRunnable mScreenshotRunnable = new ScreenshotRunnable();
 
-    private final Runnable mBackLongPress = new Runnable() {
-        @Override
+    Runnable mBackLongPress = new Runnable() {
         public void run() {
-            if (ActionUtils.killForegroundApp(mContext, mCurrentUserId)) {
-                performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, false,
-                        "Back - Long Press");
-                Toast.makeText(mContext,
-                        com.android.internal.R.string.app_killed_message,
-                        Toast.LENGTH_SHORT).show();
+            if (unpinActivity(false)) {
+                return;
             }
         }
     };
@@ -2322,9 +2307,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mPerDisplayFocusEnabled = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_perDisplayFocusEnabled);
 
-        mBackKillTimeout = mContext.getResources().getInteger(
-                com.android.internal.R.integer.config_backKillTimeout);
-
         mDeviceHardwareKeys = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_deviceHardwareKeys);
 
@@ -2723,8 +2705,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.Global.POWER_BUTTON_VERY_LONG_PRESS,
                     mContext.getResources().getInteger(
                             com.android.internal.R.integer.config_veryLongPressOnPowerBehavior));
-            mKillAppLongpressBack = Settings.Secure.getInt(resolver,
-                    Settings.Secure.KILL_APP_LONGPRESS_BACK, 0) == 1;
 
             mDefaultDisplayPolicy.updatehasNavigationBar();
         }
@@ -3416,8 +3396,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         if (keyCode == KeyEvent.KEYCODE_BACK && !down) {
-                    mHandler.removeCallbacks(mBackLongPress);
-                }
+            mHandler.removeCallbacks(mBackLongPress);
+        }
 
         // First we always handle the home key here, so applications
         // can never break it, although if keyguard is on, we do let
@@ -3670,11 +3650,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
             return -1;
           } else if (keyCode == KeyEvent.KEYCODE_BACK) {
-              if (mKillAppLongpressBack) {
+            if (unpinActivity(true)) {
                 if (down && repeatCount == 0) {
-                  mHandler.postDelayed(mBackLongPress, mBackKillTimeout);
+                    mHandler.postDelayed(mBackLongPress, 2000);
                 }
-              }
+            }
         }
 
         // Shortcuts are invoked through Search+key, so intercept those here

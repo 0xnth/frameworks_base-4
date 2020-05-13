@@ -20,6 +20,8 @@
 
 package com.android.internal.util.hwkeys;
 
+import android.app.ActivityManager;
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +32,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-//import android.content.res.ThemeConfig;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -39,12 +40,16 @@ import android.hardware.SensorManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.os.SystemClock;
 import android.os.SystemProperties;
+import android.os.Vibrator;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -56,15 +61,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManagerGlobal;
-import android.os.RemoteException;
-import android.util.Log;
-import android.app.ActivityManager;
-import android.app.ActivityManager.StackInfo;
-import android.app.ActivityManagerNative;
-import android.app.IActivityManager;
-import android.app.ActivityManagerNative;
-import android.os.UserHandle;
-import android.content.pm.ResolveInfo;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -78,6 +74,8 @@ import com.android.internal.util.hwkeys.Config.ActionConfig;
 import com.android.internal.util.hwkeys.Config.ButtonConfig;
 
 import com.android.internal.statusbar.IStatusBarService;
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public final class ActionUtils {
     public static final String ANDROIDNS = "http://schemas.android.com/apk/res/android";
@@ -96,6 +94,8 @@ public final class ActionUtils {
     public static final String BOOL = "bool";
     public static final String STRING = "string";
     public static final String ANIM = "anim";
+    public static final String INTENT_SCREENSHOT = "action_take_screenshot";
+    public static final String INTENT_REGION_SCREENSHOT = "action_take_region_screenshot";
 
     private static IStatusBarService mStatusBarService = null;
 
@@ -108,73 +108,6 @@ public final class ActionUtils {
             return mStatusBarService;
         }
     }
-
-    private static final String TAG = ActionUtils.class.getSimpleName();
-    private static final String SYSTEMUI_PACKAGE = "com.android.systemui";
-
-    /**
-     * Kills the top most / most recent user application, but leaves out the launcher.
-     * This is function governed by {@link Settings.Secure.KILL_APP_LONGPRESS_BACK}.
-     *
-     * @param context the current context, used to retrieve the package manager.
-     * @param userId the ID of the currently active user
-     * @return {@code true} when a user application was found and closed.
-     */
-    public static boolean killForegroundApp(Context context, int userId) {
-        try {
-            return killForegroundAppInternal(context, userId);
-        } catch (RemoteException e) {
-            Log.e(TAG, "Could not kill foreground app");
-        }
-        return false;
-    }
-
-    private static boolean killForegroundAppInternal(Context context, int userId)
-            throws RemoteException {
-        final String packageName = getForegroundTaskPackageName(context, userId);
-
-        if (packageName == null) {
-            return false;
-        }
-
-        final IActivityManager am = ActivityManagerNative.getDefault();
-        am.forceStopPackage(packageName, UserHandle.USER_CURRENT);
-
-        return true;
-    }
-
-    private static String getForegroundTaskPackageName(Context context, int userId)
-                throws RemoteException {
-            final String defaultHomePackage = resolveCurrentLauncherPackage(context, userId);
-            final IActivityManager am = ActivityManager.getService();
-            final StackInfo focusedStack = am.getFocusedStackInfo();
-
-            if (focusedStack == null || focusedStack.topActivity == null) {
-                return null;
-            }
-
-            final String packageName = focusedStack.topActivity.getPackageName();
-            if (!packageName.equals(defaultHomePackage)
-                    && !packageName.equals(SYSTEMUI_PACKAGE)) {
-                return packageName;
-            }
-
-            return null;
-        }
-
-    private static String resolveCurrentLauncherPackage(Context context, int userId) {
-            final Intent launcherIntent = new Intent(Intent.ACTION_MAIN)
-                    .addCategory(Intent.CATEGORY_HOME);
-            final PackageManager pm = context.getPackageManager();
-            final ResolveInfo launcherInfo = pm.resolveActivityAsUser(launcherIntent, 0, userId);
-
-            if (launcherInfo.activityInfo != null &&
-                    !launcherInfo.activityInfo.packageName.equals("android")) {
-                return launcherInfo.activityInfo.packageName;
-            }
-
-            return null;
-        }
 
     // 10 inch tablets
     public static boolean isXLargeScreen() {
@@ -297,6 +230,17 @@ public final class ActionUtils {
         Intent intent = new Intent(Intent.ACTION_SEARCH_LONG_PRESS);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    public static void killForegroundApp() {
+        IStatusBarService service = getStatusBarService();
+        if (service != null) {
+            try {
+                service.killForegroundApp();
+            } catch (RemoteException e) {
+                // do nothing.
+            }
+        }
     }
 
     /**
@@ -862,5 +806,108 @@ public final class ActionUtils {
         }
         return d;
         */
+    }
+
+    // Screen off
+    public static void switchScreenOff(Context ctx) {
+        PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+        if (pm!= null && pm.isScreenOn()) {
+            pm.goToSleep(SystemClock.uptimeMillis());
+        }
+    }
+
+    // Screen on
+    public static void switchScreenOn(Context context) {
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if (pm == null) return;
+        pm.wakeUp(SystemClock.uptimeMillis(), "com.android.systemui:CAMERA_GESTURE_PREVENT_LOCK");
+    }
+
+    // Volume panel
+    public static void toggleVolumePanel(Context context) {
+        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        am.adjustVolume(AudioManager.ADJUST_SAME, AudioManager.FLAG_SHOW_UI);
+    }
+
+    // Toggle flashlight
+    public static void toggleCameraFlash() {
+        IStatusBarService service = getStatusBarService();
+        if (service != null) {
+            try {
+                service.toggleCameraFlash();
+            } catch (RemoteException e) {
+                // do nothing.
+            }
+        }
+    }
+
+    // Clear notifications
+    public static void clearAllNotifications() {
+        IStatusBarService service = getStatusBarService();
+        if (service != null) {
+            try {
+                service.onClearAllNotifications(ActivityManager.getCurrentUser());
+            } catch (RemoteException e) {
+                // do nothing.
+            }
+        }
+    }
+
+    // Full screenshots
+    public static void takeScreenshot(boolean full) {
+        IWindowManager wm = WindowManagerGlobal.getWindowManagerService();
+        try {
+            wm.sendCustomAction(new Intent(full? INTENT_SCREENSHOT : INTENT_REGION_SCREENSHOT));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Toggle notifications panel
+    public static void toggleNotifications() {
+        IStatusBarService service = getStatusBarService();
+        if (service != null) {
+            try {
+                service.togglePanel();
+            } catch (RemoteException e) {
+                // do nothing.
+            }
+        }
+    }
+
+    // Toggle qs panel
+    public static void toggleQsPanel() {
+        IStatusBarService service = getStatusBarService();
+        if (service != null) {
+            try {
+                service.toggleSettingsPanel();
+            } catch (RemoteException e) {
+                // do nothing.
+            }
+        }
+    }
+
+    // Cycle ringer modes
+    public static void toggleRingerModes (Context context) {
+        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        Vibrator mVibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
+
+        switch (am.getRingerMode()) {
+            case AudioManager.RINGER_MODE_NORMAL:
+                if (mVibrator.hasVibrator()) {
+                    am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+                }
+                break;
+            case AudioManager.RINGER_MODE_VIBRATE:
+                am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                NotificationManager notificationManager =
+                        (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                notificationManager.setInterruptionFilter(
+                        NotificationManager.INTERRUPTION_FILTER_PRIORITY);
+                break;
+            case AudioManager.RINGER_MODE_SILENT:
+                am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                break;
+        }
     }
 }

@@ -65,7 +65,7 @@ import android.view.WindowManager;
 import android.view.WindowManagerGlobal;
 
 import com.android.internal.util.hwkeys.ActionUtils;
-import com.android.internal.util.xtended.XtendedUtils;
+import com.android.internal.util.titanium.TitaniumUtils;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.assist.AssistManager;
@@ -333,7 +333,7 @@ public class EdgeBackGestureHandler implements DisplayListener, TunerService.Tun
                 // Get packageName from Uri
                 String packageName = intent.getData().getSchemeSpecificPart();
                 // If the package is still installed
-                if (XtendedUtils.isPackageInstalled(context, packageName)) {
+                if (TitaniumUtils.isPackageInstalled(context, packageName)) {
                     // it's an application update, we can skip the rest.
                     return;
                 }
@@ -587,7 +587,7 @@ public class EdgeBackGestureHandler implements DisplayListener, TunerService.Tun
 
                     } else if (dx > dy && dx > mTouchSlop) {
                         mThresholdCrossed = true;
-                        if (mBackSwipeType == 0 && ((mLeftLongSwipeActio != 0 && mIsOnLeftEdge)
+                        if (mBackSwipeType == 0 && ((mLeftLongSwipeAction != 0 && mIsOnLeftEdge)
                                 || (mRightLongSwipeAction != 0 && !mIsOnLeftEdge))) {
                             mHandler.postDelayed(mLongSwipeAction, (mTimeout - elapsedTime));
                         }
