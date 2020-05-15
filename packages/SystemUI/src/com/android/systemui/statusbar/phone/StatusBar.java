@@ -212,7 +212,6 @@ import com.android.systemui.shared.system.TaskStackChangeListener;
 import com.android.systemui.shared.system.WindowManagerWrapper;
 import com.android.systemui.stackdivider.Divider;
 import com.android.systemui.stackdivider.WindowManagerProxy;
-import com.android.systemui.statusbar.AODDimView;
 import com.android.systemui.statusbar.BackDropView;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.CrossFadeHelper;
@@ -541,8 +540,6 @@ public class StatusBar extends SystemUI implements DemoMode,
     protected static NotificationPanelView mStaticNotificationPanel;
     public static boolean mClearableNotifications;
 
-    private AODDimView mAODDimView;
-
     // ensure quick settings is disabled until the current user makes it through the setup wizard
     @VisibleForTesting
     protected boolean mUserSetup = false;
@@ -702,10 +699,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                 public void onDreamingStateChanged(boolean dreaming) {
                     if (dreaming) {
                         maybeEscalateHeadsUp();
-                    }
-                    if (mAODDimView != null) {
-                        if (dreaming) mAODDimView.setVisible(true, true);
-                        if (!dreaming) mAODDimView.setVisible(false);
                     }
                 }
 
@@ -988,7 +981,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         mStackScroller = mStatusBarWindow.findViewById(R.id.notification_stack_scroller);
         mZenController.addCallback(this);
         mQSBlurView = mStatusBarWindow.findViewById(R.id.qs_blur);
-        mAODDimView = mStatusBarWindow.findViewById(R.id.aod_screen_dim);
         NotificationListContainer notifListContainer = (NotificationListContainer) mStackScroller;
         mNotificationLogger.setUpWithContainer(notifListContainer);
 
@@ -4610,9 +4602,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.QS_PANEL_BG_USE_NEW_TINT),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.SCREEN_OFF_FOD),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LONG_BACK_SWIPE_TIMEOUT),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -4689,7 +4678,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             updateKeyguardStatusSettings();
             setMediaHeadsup();
             updateQSPanel();
-            updateAODDimView();
             setGestureNavOptions();
         }
     }
@@ -4807,11 +4795,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         if (mMediaManager != null) {
             mMediaManager.setLockScreenMediaBlurLevel();
         }
-    }
-
-    private void updateAODDimView() {
-        mAODDimView.setEnabled(Settings.System.getIntForUser(mContext.getContentResolver(),
-            Settings.System.SCREEN_OFF_FOD, 0, UserHandle.USER_CURRENT) != 0);
     }
 
     private void setGestureNavOptions() {
@@ -5093,7 +5076,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                 public void onPulseStarted() {
                     callback.onPulseStarted();
                     updateNotificationPanelTouchState();
-                    mAODDimView.setVisible(false);
                     setPulsing(true);
                     KeyguardUpdateMonitor.getInstance(mContext).setPulsing(true);
                 }
@@ -5107,7 +5089,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     if (mStatusBarWindow != null) {
                         mStatusBarWindow.suppressWakeUpGesture(false);
                     }
-                    mAODDimView.setVisible(true);
                     setPulsing(false);
                     KeyguardUpdateMonitor.getInstance(mContext).setPulsing(false);
                 }

@@ -441,8 +441,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mDoubleTapToDoze;
     private boolean mNativeDoubleTapToDozeAvailable;
 
-    private boolean mFODEnabled;
-
     // Assigned on main thread, accessed on UI thread
     volatile VrManagerInternal mVrManagerInternal;
 
@@ -2592,8 +2590,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 Settings.Secure.DOUBLE_TAP_TO_WAKE, 0) == 1;
         mDoubleTapToDoze = Settings.System.getInt(resolver,
                 Settings.System.DOZE_TRIGGER_DOUBLETAP, 0) == 1;
-        mFODEnabled = Settings.System.getInt(resolver,
-                Settings.System.SCREEN_OFF_FOD, 0) == 1;
 
         synchronized (mLock) {
             mEndcallBehavior = Settings.System.getIntForUser(resolver,
@@ -4959,7 +4955,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             case KeyEvent.KEYCODE_WAKEUP: {
                 result &= ~ACTION_PASS_TO_USER;
                 // Double-tap-to-doze
-                if (mDoubleTapToWake && mDoubleTapToDoze && !mNativeDoubleTapToDozeAvailable && !mFODEnabled) {
+                if (mDoubleTapToWake && mDoubleTapToDoze && !mNativeDoubleTapToDozeAvailable) {
                     isWakeKey = false;
                     if (!down) {
                         mContext.sendBroadcast(new Intent("com.android.systemui.doze.pulse"));
