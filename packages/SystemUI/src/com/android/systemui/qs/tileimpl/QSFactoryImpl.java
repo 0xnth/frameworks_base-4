@@ -48,7 +48,6 @@ import com.android.systemui.qs.tiles.HWKeysTile;
 import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
-import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.MonoToggleTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
@@ -111,7 +110,6 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<LiveDisplayTile> mLiveDisplayTileProvider;
     private final Provider<ReadingModeTile> mReadingModeTileProvider;
     private final Provider<ScreenRecordTile> mScreenRecordTileProvider;
-    private final Provider<LteTile> mLteTileProvider;
     private final Provider<CPUInfoTile> mCPUInfoTileProvider;
     private final Provider<SmartPixelsTile> mSmartPixelsTileProvider;
     private final Provider<HWKeysTile> mHWKeysTileProvider;
@@ -156,7 +154,6 @@ public class QSFactoryImpl implements QSFactory {
             Provider<LiveDisplayTile> liveDisplayTileProvider,
             Provider<ReadingModeTile> readingModeTileProvider,
             Provider<ScreenRecordTile> screenRecordTileProvider,
-            Provider<LteTile> lteTileProvider,
             Provider<CPUInfoTile> cpuInfoTileProvider,
             Provider<SmartPixelsTile> smartPixelsTileProvider,
             Provider<HWKeysTile> hWKeysTileProvider,
@@ -198,7 +195,6 @@ public class QSFactoryImpl implements QSFactory {
         mLiveDisplayTileProvider = liveDisplayTileProvider;
         mReadingModeTileProvider = readingModeTileProvider;
         mScreenRecordTileProvider = screenRecordTileProvider;
-        mLteTileProvider = lteTileProvider;
         mCPUInfoTileProvider = cpuInfoTileProvider;
         mSmartPixelsTileProvider = smartPixelsTileProvider;
         mHWKeysTileProvider = hWKeysTileProvider;
@@ -286,8 +282,6 @@ public class QSFactoryImpl implements QSFactory {
                 return mReadingModeTileProvider.get();
             case "screenrecord":
                 return mScreenRecordTileProvider.get();
-            case "lte":
-                return mLteTileProvider.get();
             case "cpuinfo":
                 return mCPUInfoTileProvider.get();
             case "smartpixels":
