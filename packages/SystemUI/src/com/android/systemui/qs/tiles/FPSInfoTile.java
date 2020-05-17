@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2019 The OmniROM Project
- * Copyright (C) 2020 Havoc-OS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +23,6 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.provider.Settings.Global;
 import android.service.quicksettings.Tile;
-import android.text.TextUtils;
 
 import com.android.systemui.R;
 import com.android.systemui.Dependency;
@@ -94,28 +92,20 @@ public class FPSInfoTile extends QSTileImpl<BooleanState> {
     protected void handleUpdateState(BooleanState state, Object arg) {
         state.label = mContext.getString(R.string.quick_settings_fpsinfo_label);
         state.icon = ResourceIcon.get(R.drawable.ic_qs_fpsinfo);
-	    if (FPSInfoEnabled()) {
+        if (FPSInfoEnabled()) {
             state.contentDescription =  mContext.getString(
                     R.string.accessibility_quick_settings_fpsinfo_on);
             state.state = Tile.STATE_ACTIVE;
-	    } else {
+        } else {
             state.contentDescription =  mContext.getString(
                     R.string.accessibility_quick_settings_fpsinfo_off);
             state.state = Tile.STATE_INACTIVE;
-	    }
+        }
     }
 
     private boolean FPSInfoEnabled() {
         return Settings.Global.getInt(mContext.getContentResolver(),
                 Settings.Global.SHOW_FPS_OVERLAY, 0) == 1;
-    }
-
-    @Override
-    public boolean isAvailable() {
-        final String fpsInfoSysNode = mContext.getResources().getString(
-                R.string.config_fpsInfoSysNode);
-        boolean fpsInfoSupported = !TextUtils.isEmpty(fpsInfoSysNode);
-        return fpsInfoSupported;
     }
 
     @Override
@@ -130,5 +120,3 @@ public class FPSInfoTile extends QSTileImpl<BooleanState> {
         }
     }
 }
-
-
