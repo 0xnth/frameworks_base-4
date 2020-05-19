@@ -49,6 +49,7 @@ import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.MonoToggleTile;
+import com.android.systemui.qs.tiles.NavBarTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
 import com.android.systemui.qs.tiles.ReadingModeTile;
@@ -119,6 +120,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<MonoToggleTile> mMonoToggleTileProvider;
     private final Provider<RebootTile> mRebootTileProvider;
     private final Provider<DataSwitchTile> mDataSwitchTileProvider;
+    private final Provider<NavBarTile> mNavBarTileProvider;
 
     private QSTileHost mHost;
 
@@ -162,7 +164,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<FPSInfoTile> fpsInfoTileProvider,
             Provider<MonoToggleTile> monoToggleTileProvider,
             Provider<RebootTile> rebootTileProvider,
-            Provider<DataSwitchTile> dataSwitchTileProvider) {
+            Provider<DataSwitchTile> dataSwitchTileProvider,
+            Provider<NavBarTile> navBarTileProvider) {
         mWifiTileProvider = wifiTileProvider;
         mBluetoothTileProvider = bluetoothTileProvider;
         mCellularTileProvider = cellularTileProvider;
@@ -204,6 +207,7 @@ public class QSFactoryImpl implements QSFactory {
         mMonoToggleTileProvider = monoToggleTileProvider;
         mRebootTileProvider = rebootTileProvider;
         mDataSwitchTileProvider = dataSwitchTileProvider;
+        mNavBarTileProvider = navBarTileProvider;
     }
 
     public void setHost(QSTileHost host) {
@@ -302,6 +306,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mDataSwitchTileProvider.get();
             case "weather":
                 return new WeatherTile(mHost);
+            case "navbar":
+                return mNavBarTileProvider.get();
         }
 
         // Intent tiles.

@@ -274,4 +274,9 @@
     <string name="active_edge_app_select_title">Select app</string>
     <string name="active_edge_activity_select_title">Select activity</string>
 
+    <!-- Navigation Bar tile -->
+    <string name="quick_settings_navbar_title">Navigation Bar</string>
+    <string name="accessibility_quick_settings_navbar_on">Navigation bar on</string>
+    <string name="accessibility_quick_settings_navbar_off">Navigation bar off</string>
+
 </resources>
