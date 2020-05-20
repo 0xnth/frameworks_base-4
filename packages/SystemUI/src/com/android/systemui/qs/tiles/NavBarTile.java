@@ -22,7 +22,7 @@ import android.provider.Settings;
 import android.service.quicksettings.Tile;
 
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
-import com.android.internal.util.evolution.EvolutionUtils;
+import com.android.internal.util.titanium.TitaniumUtils;
 
 import com.android.systemui.plugins.qs.QSTile.BooleanState;
 import com.android.systemui.qs.QSHost;
@@ -70,7 +70,7 @@ public class NavBarTile extends QSTileImpl<BooleanState> {
     }
 
    private boolean isNavbarEnabled() {
-        boolean enabled = EvolutionUtils.deviceSupportNavigationBar(mContext);
+        boolean enabled = TitaniumUtils.deviceSupportNavigationBar(mContext);
         return Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.FORCE_SHOW_NAVBAR, enabled ? 1 : 0) == 1;
     }
@@ -104,7 +104,7 @@ public class NavBarTile extends QSTileImpl<BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return MetricsEvent.EVO_SETTINGS;
+        return MetricsEvent.TIELEMENTS;
     }
 
     @Override

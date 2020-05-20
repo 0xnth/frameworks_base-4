@@ -131,15 +131,6 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         R.drawable.fod_icon_21
     };
 
-    private int mPressedIcon;
-    private final int[] PRESSED_STYLES = {
-        R.drawable.fod_icon_pressed_miui_cyan,
-        R.drawable.fod_icon_pressed_miui_white,
-        R.drawable.fod_icon_pressed_vivo_cyan,
-        R.drawable.fod_icon_pressed_vivo_green,
-        R.drawable.fod_icon_pressed_vivo_yellow
-    };
-
     private IFingerprintInscreenCallback mFingerprintInscreenCallback =
             new IFingerprintInscreenCallback.Stub() {
         @Override
@@ -260,7 +251,6 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         Resources res = context.getResources();
 
         mPaintFingerprint.setAntiAlias(true);
-        mPaintFingerprint.setColor(res.getColor(R.color.config_fodColor));
 
         mWindowManager = context.getSystemService(WindowManager.class);
 
@@ -310,7 +300,49 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         super.onDraw(canvas);
 
         if (mIsCircleShowing) {
-            setImageResource(PRESSED_STYLES[mPressedIcon]);
+            if (getFODPressedState() == 0) {
+                //canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
+                setImageResource(R.drawable.fod_icon_pressed_miui_cyan);
+            } else if (getFODPressedState() == 1) {
+                //canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
+                setImageResource(R.drawable.fod_icon_pressed_miui_white);
+            } else if (getFODPressedState() == 2) {
+                //canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
+                setImageResource(R.drawable.fod_icon_pressed_vivo_cyan);
+            } else if (getFODPressedState() == 3) {
+                //canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
+                setImageResource(R.drawable.fod_icon_pressed_vivo_yellow);
+            } else if (getFODPressedState() == 4) {
+                mPaintFingerprint.setColor(getFODSolidColor());
+                canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
+            }
+        }
+    }
+
+    private int getFODSolidColor() {
+        int defaultColor = mContext.getResources().getColor(R.color.config_fodColor);
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.FOD_SOLID_COLOR, defaultColor);
+    }
+
+    private int getFODPressedState() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.FOD_PRESSED_STATE, 0);
+    }
+
+    private void setFODPressedState() {
+        int fodpressed = getFODPressedState();
+
+        if (fodpressed == 0) {
+            setImageResource(R.drawable.fod_icon_pressed_miui_cyan);
+        } else if (fodpressed == 1) {
+            setImageResource(R.drawable.fod_icon_pressed_miui_white);
+        } else if (fodpressed == 2) {
+            setImageResource(R.drawable.fod_icon_pressed_vivo_cyan);
+        } else if (fodpressed == 3) {
+            setImageResource(R.drawable.fod_icon_pressed_vivo_yellow);
+        } else if (fodpressed == 4) {
+            setImageDrawable(null);
         }
     }
 
@@ -418,7 +450,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         setDim(true);
         updateAlpha();
 
-        setImageResource(PRESSED_STYLES[mPressedIcon]);
+        setFODPressedState();
         invalidate();
     }
 
@@ -470,8 +502,6 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
                 Settings.System.FOD_RECOGNIZING_ANIMATION, 0) != 0;
         mSelectedIcon = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.FOD_ICON, 0);
-        mPressedIcon = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.FOD_PRESSED_STATE, 0);
         if (mFODAnimation != null) {
             mFODAnimation.update();
         }

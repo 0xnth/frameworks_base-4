@@ -6843,17 +6843,15 @@ public final class Settings {
         public static final String LOCK_SCREEN_WEATHER_ICON_COLOR = "lock_screen_weather_icon_color";
 
         /**
-     ** Change fonts for the system lockscreen weather temperature
-     **
-     ** @hide
-     **/
+         * Change fonts for the system lockscreen weather temperature
+         * @hide
+         */
          public static final String LOCK_WEATHER_TEMP_FONTS = "lock_weather_temp_fonts";
 
         /**
-     ** Change fonts for the system lockscreen weather city
-     **
-     ** @hide
-     **/
+         * Change fonts for the system lockscreen weather city
+         * @hide
+         */
          public static final String LOCK_WEATHER_CITY_FONTS = "lock_weather_city_fonts";
 
         /**
@@ -6930,6 +6928,16 @@ public final class Settings {
         /** @hide */
         private static final Validator LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED_VALIDATOR =
                 BOOLEAN_VALIDATOR;
+
+        /**
+         * FOD pressed icon color
+         * @hide
+         */
+        public static final String FOD_SOLID_COLOR = "fod_solid_color";
+
+        /** @hide */
+        private static final Validator FOD_SOLID_COLOR_VALIDATOR =
+                ANY_INTEGER_VALIDATOR;
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -7093,6 +7101,7 @@ public final class Settings {
             LOCKSCREEN_WEATHER_SHOW_TEMP,
             LOCKSCREEN_WEATHER_SHOW_CITY,
             LOCKSCREEN_WEATHER_SHOW_IMAGE,
+            FOD_SOLID_COLOR,
         };
 
         /**
@@ -7571,6 +7580,7 @@ public final class Settings {
             VALIDATORS.put(LOCKSCREEN_WEATHER_SHOW_CITY, LOCKSCREEN_WEATHER_SHOW_CITY_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_WEATHER_SHOW_IMAGE, LOCKSCREEN_WEATHER_SHOW_IMAGE_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED, LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED_VALIDATOR);
+            VALIDATORS.put(FOD_SOLID_COLOR, FOD_SOLID_COLOR_VALIDATOR);
         }
 
         /**
