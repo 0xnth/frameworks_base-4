@@ -373,7 +373,7 @@
     <bool name="config_singleStageCameraKey">false</bool>
 
     <!-- Whether to send camera status intent -->
-    <bool name="config_sendCameraStatusIntent">true</bool>
+    <bool name="config_sendCameraStatusIntent">false</bool>
 
     <!-- Path to fast charging status file to detect whether an oem fast charger is active -->
     <string name="config_oemFastChargerStatusPath" translatable="false"></string>
