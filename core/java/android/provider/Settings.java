@@ -6705,6 +6705,18 @@ public final class Settings {
                 BOOLEAN_VALIDATOR;
 
         /**
+         * Screen off FOD
+         * @hide
+         */
+        public static final String SCREEN_OFF_FOD = "screen_off_fod";
+
+        /**
+         * Whether to show icon when Screen off FODis enabled
+         * @hide
+         */
+        public static final String SCREEN_OFF_FOD_ICON = "screen_off_fod_icon";
+
+        /**
          * Quick Settings Smart Pulldown
          * @hide
          */

@@ -104,6 +104,9 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
 
     private FODAnimation mFODAnimation;
     private boolean mIsRecognizingAnimEnabled;
+    private boolean mShouldRemoveIconOnAOD;
+    private boolean mScreenOffFodEnabled;
+    private boolean mScreenOffFodIconEnabled;
 
     private int mSelectedIcon;
     private final int[] ICON_STYLES = {
@@ -155,8 +158,15 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
             if (dreaming) {
                 mBurnInProtectionTimer = new Timer();
                 mBurnInProtectionTimer.schedule(new BurnInProtectionTask(), 0, 60 * 1000);
+                if (mShouldRemoveIconOnAOD) {
+                    resetFODIcon(false);
+                }
             } else if (mBurnInProtectionTimer != null) {
                 mBurnInProtectionTimer.cancel();
+            }
+
+            if (mShouldRemoveIconOnAOD && !dreaming) {
+                resetFODIcon(true);
             }
         }
 
@@ -457,13 +467,30 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
     public void hideCircle() {
         mIsCircleShowing = false;
 
-        setImageResource(ICON_STYLES[mSelectedIcon]);
+        setFODIcon();
         invalidate();
 
         setDim(false);
         updateAlpha();
 
         setKeepScreenOn(false);
+    }
+
+    private void resetFODIcon(boolean show) {
+        if (show) {
+            setFODIcon();
+        } else {
+            this.setImageResource(0);
+        }
+    }
+
+    private void setFODIcon() {
+        if (mIsDreaming && mShouldRemoveIconOnAOD) {
+            return;
+        }
+
+        setImageResource(ICON_STYLES[mSelectedIcon]);
+        this.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
     }
 
     public void show() {
@@ -494,7 +521,11 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
     }
 
     private void updateAlpha() {
-        setAlpha(1.0f);
+        if (mIsCircleShowing) {
+            setAlpha(1.0f);
+        } else {
+            setAlpha(mIsDreaming ? 0.5f : 1.0f);
+        }
     }
 
     private void updateStyle() {
@@ -505,6 +536,11 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         if (mFODAnimation != null) {
             mFODAnimation.update();
         }
+        mScreenOffFodEnabled = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SCREEN_OFF_FOD, 0) != 0;
+        mScreenOffFodIconEnabled = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SCREEN_OFF_FOD_ICON, 1) != 0;
+        mShouldRemoveIconOnAOD = mScreenOffFodEnabled && !mScreenOffFodIconEnabled;
     }
 
     private void updatePosition() {
