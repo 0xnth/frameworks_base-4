@@ -122,7 +122,6 @@ public class StatusBarWindowView extends FrameLayout {
     private boolean mExpandAnimationPending;
     private boolean mSuppressingWakeUpGesture;
 
-    // omni additions start
     private boolean mDoubleTapEnabledNative;
 
     private static ImageButton mDismissAllButton;
