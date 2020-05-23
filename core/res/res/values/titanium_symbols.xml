@@ -314,9 +314,6 @@
     <!-- Camera key type -->
     <java-symbol type="bool" name="config_singleStageCameraKey" />
 
-    <!-- Whether to send camera status intent -->
-    <java-symbol type="bool" name="config_sendCameraStatusIntent" />
-
     <!-- Themes -->
     <java-symbol type="color" name="theme_generic_semi_transparent_color" />
 

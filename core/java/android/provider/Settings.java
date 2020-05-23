@@ -6952,6 +6952,15 @@ public final class Settings {
                 ANY_INTEGER_VALIDATOR;
 
         /**
+         * Gestures nav: whether show it or hide completely
+         * @hide
+         */
+        public static final String GESTURE_NAVBAR_SHOW = "gesture_navbar_show";
+
+        /** @hide */
+        private static final Validator GESTURE_NAVBAR_SHOW_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -7114,6 +7123,7 @@ public final class Settings {
             LOCKSCREEN_WEATHER_SHOW_CITY,
             LOCKSCREEN_WEATHER_SHOW_IMAGE,
             FOD_SOLID_COLOR,
+            GESTURE_NAVBAR_SHOW,
         };
 
         /**
@@ -7365,6 +7375,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_CITY);
             PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_IMAGE);
             PRIVATE_SETTINGS.add(LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED);
+            PRIVATE_SETTINGS.add(GESTURE_NAVBAR_SHOW);
         }
 
         /**
@@ -7593,6 +7604,7 @@ public final class Settings {
             VALIDATORS.put(LOCKSCREEN_WEATHER_SHOW_IMAGE, LOCKSCREEN_WEATHER_SHOW_IMAGE_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED, LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED_VALIDATOR);
             VALIDATORS.put(FOD_SOLID_COLOR, FOD_SOLID_COLOR_VALIDATOR);
+            VALIDATORS.put(GESTURE_NAVBAR_SHOW,GESTURE_NAVBAR_SHOW_VALIDATOR);
         }
 
         /**
