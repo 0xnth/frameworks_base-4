@@ -321,8 +321,11 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
                 setImageResource(R.drawable.fod_icon_pressed_vivo_cyan);
             } else if (getFODPressedState() == 3) {
                 //canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
-                setImageResource(R.drawable.fod_icon_pressed_vivo_yellow);
+                setImageResource(R.drawable.fod_icon_pressed_vivo_green);
             } else if (getFODPressedState() == 4) {
+                //canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
+                setImageResource(R.drawable.fod_icon_pressed_vivo_yellow);
+            } else if (getFODPressedState() == 5) {
                 mPaintFingerprint.setColor(getFODSolidColor());
                 canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
             }
@@ -350,8 +353,10 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         } else if (fodpressed == 2) {
             setImageResource(R.drawable.fod_icon_pressed_vivo_cyan);
         } else if (fodpressed == 3) {
-            setImageResource(R.drawable.fod_icon_pressed_vivo_yellow);
+            setImageResource(R.drawable.fod_icon_pressed_vivo_green);
         } else if (fodpressed == 4) {
+            setImageResource(R.drawable.fod_icon_pressed_vivo_yellow);
+        } else if (fodpressed == 5) {
             setImageDrawable(null);
         }
     }
