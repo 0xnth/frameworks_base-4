@@ -69,7 +69,7 @@
     <dimen name="status_bar_battery_icon_height">12.5dp</dimen>
 
     <!-- Width of the battery icon in the status bar. -->
-    <dimen name="status_bar_battery_icon_width">16.0dp</dimen>
+    <dimen name="status_bar_battery_icon_width">10.0dp</dimen>
 
     <!-- Width of the battery icon in the status bar when set to circle style. -->
     <dimen name="status_bar_battery_icon_circle_width">14.5dp</dimen>
@@ -84,7 +84,7 @@
     <dimen name="status_bar_clock_end_padding">0dp</dimen>
 
     <!-- Starting padding for a left-aligned status bar clock -->
-    <dimen name="status_bar_left_clock_starting_padding">0dp</dimen>
+    <dimen name="status_bar_left_clock_starting_padding">2dp</dimen>
 
     <!-- End padding for left-aligned status bar clock -->
     <dimen name="status_bar_left_clock_end_padding">4dp</dimen>
