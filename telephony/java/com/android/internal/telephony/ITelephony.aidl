@@ -63,14 +63,22 @@ import java.util.Map;
 import android.telephony.UiccCardInfo;
 import android.telephony.UiccSlotInfo;
 
-/**
- * Interface used to interact with the phone.  Mostly this is used by the
- * TelephonyManager class.  A few places are still using this directly.
- * Please clean them up if possible and use TelephonyManager instead.
- *
- * {@hide}
- */
-interface ITelephony {
+    /**
+    * Interface used to interact with the phone.  Mostly this is used by the
+    * TelephonyManager class.  A few places are still using this directly.
+    * Please clean them up if possible and use TelephonyManager instead.
+    *
+    * {@hide}
+    */
+    interface ITelephony {
+
+    /**
+     * Toggle between 3G and LTE (NT_MODE_CDMA, NT_MODE_GLOBAL)
+     * @param boolean to turn on and off LTE
+     */
+    void toggleLTE(boolean on);
+
+
 
     /**
      * Dial a number. This doesn't place the call. It displays

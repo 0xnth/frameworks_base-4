@@ -279,4 +279,7 @@
     <string name="accessibility_quick_settings_navbar_on">Navigation bar on</string>
     <string name="accessibility_quick_settings_navbar_off">Navigation bar off</string>
 
+    <!-- LTE QS Tile -->
+    <string name="qs_lte_label">LTE</string>
+
 </resources>

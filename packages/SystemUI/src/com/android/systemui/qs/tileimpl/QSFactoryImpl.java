@@ -48,6 +48,7 @@ import com.android.systemui.qs.tiles.HWKeysTile;
 import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
+import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.MonoToggleTile;
 import com.android.systemui.qs.tiles.NavBarTile;
 import com.android.systemui.qs.tiles.NfcTile;
@@ -89,6 +90,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<RotationLockTile> mRotationLockTileProvider;
     private final Provider<FlashlightTile> mFlashlightTileProvider;
     private final Provider<LocationTile> mLocationTileProvider;
+    private final Provider<LteTile> mLteTileProvider;
     private final Provider<CastTile> mCastTileProvider;
     private final Provider<HotspotTile> mHotspotTileProvider;
     private final Provider<UserTile> mUserTileProvider;
@@ -154,6 +156,7 @@ public class QSFactoryImpl implements QSFactory {
             Provider<SyncTile> syncTileProvider,
             Provider<VolumeTile> volumeTileProvider,
             Provider<LiveDisplayTile> liveDisplayTileProvider,
+            Provider<LteTile> lteTileProvider,
             Provider<ReadingModeTile> readingModeTileProvider,
             Provider<ScreenRecordTile> screenRecordTileProvider,
             Provider<CPUInfoTile> cpuInfoTileProvider,
@@ -196,6 +199,7 @@ public class QSFactoryImpl implements QSFactory {
         mSyncTileProvider = syncTileProvider;
         mVolumeTileProvider = volumeTileProvider;
         mLiveDisplayTileProvider = liveDisplayTileProvider;
+        mLteTileProvider = lteTileProvider;
         mReadingModeTileProvider = readingModeTileProvider;
         mScreenRecordTileProvider = screenRecordTileProvider;
         mCPUInfoTileProvider = cpuInfoTileProvider;
@@ -286,6 +290,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mReadingModeTileProvider.get();
             case "screenrecord":
                 return mScreenRecordTileProvider.get();
+            case "lte":
+                return mLteTileProvider.get();
             case "cpuinfo":
                 return mCPUInfoTileProvider.get();
             case "smartpixels":
