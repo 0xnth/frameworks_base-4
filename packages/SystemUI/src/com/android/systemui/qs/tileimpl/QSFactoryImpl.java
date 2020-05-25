@@ -35,6 +35,7 @@ import com.android.systemui.qs.tiles.CaffeineTile;
 import com.android.systemui.qs.tiles.CastTile;
 import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorInversionTile;
+import com.android.systemui.qs.tiles.CompassTile;
 import com.android.systemui.qs.tiles.CPUInfoTile;
 import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DataSwitchTile;
@@ -123,6 +124,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<RebootTile> mRebootTileProvider;
     private final Provider<DataSwitchTile> mDataSwitchTileProvider;
     private final Provider<NavBarTile> mNavBarTileProvider;
+    private final Provider<CompassTile> mCompassTileProvider;
 
     private QSTileHost mHost;
 
@@ -168,7 +170,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<MonoToggleTile> monoToggleTileProvider,
             Provider<RebootTile> rebootTileProvider,
             Provider<DataSwitchTile> dataSwitchTileProvider,
-            Provider<NavBarTile> navBarTileProvider) {
+            Provider<NavBarTile> navBarTileProvider,
+            Provider<CompassTile> compassTileProvider) {
         mWifiTileProvider = wifiTileProvider;
         mBluetoothTileProvider = bluetoothTileProvider;
         mCellularTileProvider = cellularTileProvider;
@@ -212,6 +215,7 @@ public class QSFactoryImpl implements QSFactory {
         mRebootTileProvider = rebootTileProvider;
         mDataSwitchTileProvider = dataSwitchTileProvider;
         mNavBarTileProvider = navBarTileProvider;
+        mCompassTileProvider = compassTileProvider;
     }
 
     public void setHost(QSTileHost host) {
@@ -314,6 +318,8 @@ public class QSFactoryImpl implements QSFactory {
                 return new WeatherTile(mHost);
             case "navbar":
                 return mNavBarTileProvider.get();
+            case "compass":
+                return mCompassTileProvider.get();
         }
 
         // Intent tiles.
