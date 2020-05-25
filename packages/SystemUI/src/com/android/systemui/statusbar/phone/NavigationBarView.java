@@ -46,7 +46,6 @@ import android.graphics.Region.Op;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.os.UserManager;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -1081,16 +1080,12 @@ public class NavigationBarView extends FrameLayout implements
                     : getResources().getDimensionPixelSize(
                             com.android.internal.R.dimen.navigation_bar_height);
             int finalHeight = mShowGestureNavbar ? height : 0;
-            int frameHeight = showIMESpace() ? getResources().getDimensionPixelSize(
+            int frameHeight = mShowGestureNavbar ? getResources().getDimensionPixelSize(
                     com.android.internal.R.dimen.navigation_bar_frame_height) : 0;
             mBarTransitions.setBackgroundFrame(new Rect(0, frameHeight - finalHeight, w, h));
         }
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    public boolean showGestureNavbar() {
-        return mShowGestureNavbar;
     }
 
     private void notifyVerticalChangedListener(boolean newVertical) {
@@ -1278,9 +1273,4 @@ public class NavigationBarView extends FrameLayout implements
         mDockedStackExists = exists;
         updateRecentsIcon();
     });
-
-    private boolean showIMESpace() {
-        return Settings.System.getIntForUser(getContext().getContentResolver(),
-                Settings.System.NAVIGATION_BAR_IME_SPACE, 1, UserHandle.USER_CURRENT) != 0;
-    }
 }
