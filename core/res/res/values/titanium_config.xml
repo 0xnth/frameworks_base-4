@@ -377,4 +377,7 @@
     <!-- Expected value from fast charging status file  -->
     <string name="config_oemFastChargerStatusValue" translatable="false"></string>
 
+    <!-- SBC Dual Channel (SBC HD Audio) -->
+    <bool name="config_enableSBCDualChannelAudio">true</bool>
+
 </resources>

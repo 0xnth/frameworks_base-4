@@ -326,4 +326,7 @@
   <java-symbol type="string" name="systemui_restart_title" />
   <java-symbol type="string" name="systemui_restart_message" />
 
+  <!-- SBC Dual Channel (SBC HD Audio) -->
+  <java-symbol type="bool" name="config_enableSBCDualChannelAudio"/>
+
 </resources>
