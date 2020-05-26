@@ -56,7 +56,6 @@ LOCAL_REQUIRED_MODULES := \
     IconPackRoundedSystemUIOverlay \
     IconShapeCookieOverlay \
     IconShapeCylinderOverlay \
-    IconShapeHexagonOverlay \
     IconShapeRoundedHexagonOverlay \
     IconShapeRoundedRectOverlay \
     IconShapeSquareOverlay \
