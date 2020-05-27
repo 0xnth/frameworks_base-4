@@ -203,7 +203,6 @@ import com.android.systemui.plugins.statusbar.NotificationSwipeActionHelper.Snoo
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.qs.QSFragment;
 import com.android.systemui.qs.QSPanel;
-import com.android.systemui.qs.QuickQSPanel;
 import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
@@ -453,7 +452,6 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     // settings
     private QSPanel mQSPanel;
-    private QuickQSPanel mQuickQSPanel;
 
     KeyguardIndicationController mKeyguardIndicationController;
 
@@ -589,12 +587,13 @@ public class StatusBar extends SystemUI implements DemoMode,
     private boolean mWallpaperSupported;
 
     private VisualizerView mVisualizerView;
-    // LS visualizer on Ambient Display
+
     private boolean mAmbientVisualizer;
 
     private int mChargingAnimation;
 
     private boolean mPocketJudgeAllowFP;
+
     private boolean mWallpaperSupportsAmbientMode;
     private final BroadcastReceiver mWallpaperChangedReceiver = new BroadcastReceiver() {
         @Override
@@ -940,7 +939,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         Dependency.get(InitController.class).addPostInitTask(
                 () -> setUpDisableFlags(disabledFlags1, disabledFlags2));
 
-        mDefaultHomeIntentFilter = new IntentFilter();
+                mDefaultHomeIntentFilter = new IntentFilter();
         for (String action : DEFAULT_HOME_CHANGE_ACTIONS) {
             mDefaultHomeIntentFilter.addAction(action);
         }
@@ -1071,7 +1070,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         mNotificationLogger.setHeadsUpManager(mHeadsUpManager);
         putComponent(HeadsUpManager.class, mHeadsUpManager);
 
-        updateNavigationBar(result, true);
+       updateNavigationBar(result, true);
 
         if (ENABLE_LOCKSCREEN_WALLPAPER && mWallpaperSupported) {
             mLockscreenWallpaper = new LockscreenWallpaper(mContext, this, mHandler);
@@ -3342,9 +3341,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         if (mQSPanel != null) {
             mQSPanel.updateResources();
         }
-        if (mQuickQSPanel != null) {
-            mQuickQSPanel.updateResources();
-        }
+
         loadDimens();
 
         if (mStatusBarView != null) {
@@ -4547,9 +4544,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.QS_COLUMNS_LANDSCAPE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.QS_QUICKBAR_COLUMNS),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_TILE_TITLE_VISIBILITY),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -4707,9 +4701,6 @@ public class StatusBar extends SystemUI implements DemoMode,
     private void updateQsPanelResources() {
         if (mQSPanel != null) {
             mQSPanel.updateResources();
-        }
-        if (mQuickQSPanel != null) {
-            mQuickQSPanel.updateSettings();
         }
     }
 
@@ -5732,4 +5723,5 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
         mShowNavBar = showNavBar;
     }
+
 }
