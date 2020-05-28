@@ -227,4 +227,11 @@
     <color name="recents_dismiss_all_background_color_ripple">#a8a8a8</color>
     <color name="recents_dismiss_all_icon_color">#8a000000</color>
 
+    <!-- Drag handle -->
+    <color name="qs_drag_handle_color">#e5e5e5</color>
+
+    <!-- MIUI Slider -->
+    <color name="brightness_slider_background">@*android:color/notification_material_background_color</color>
+    <color name="brightness_slider_icons">#4a4a4a</color>
+
 </resources>

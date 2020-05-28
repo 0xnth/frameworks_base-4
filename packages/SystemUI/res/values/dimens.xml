@@ -346,7 +346,7 @@
     <dimen name="qs_header_system_icons_area_height">48dp</dimen>
 
     <!-- How far the quick-quick settings panel extends below the status bar -->
-    <dimen name="qs_quick_header_panel_height">128dp</dimen>
+    <dimen name="qs_quick_header_panel_height">140dp</dimen>
 
     <!-- The height of the container that holds the system icons in the quick settings header in the
          car setting. -->
@@ -366,7 +366,7 @@
     <dimen name="qs_footer_icon_padding">14dp</dimen>
 
     <!-- The padding between the notifications and the quick settings container -->
-    <dimen name="qs_notification_padding">@dimen/notification_side_paddings</dimen>
+    <dimen name="qs_notification_padding">@*android:dimen/qs_notification_padding</dimen>
 
     <!-- Height of the status bar header bar when expanded -->
     <dimen name="status_bar_header_height_expanded">124dp</dimen>
@@ -721,7 +721,7 @@
     <!-- The top padding of the clear all button -->
     <dimen name="clear_all_padding_top">12dp</dimen>
 
-    <dimen name="notification_section_header_height">32dp</dimen>
+    <dimen name="notification_section_header_height">48dp</dimen>
     <dimen name="notification_section_header_padding_left">16dp</dimen>
 
     <!-- Largest size an avatar might need to be drawn in the user picker, status bar, or

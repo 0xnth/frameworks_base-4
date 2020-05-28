@@ -6956,6 +6956,22 @@ public final class Settings {
         private static final Validator GESTURE_NAVBAR_SHOW_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
+         * Bottom brightness slider
+         * @hide
+         */
+        public static final String QS_BOTTOM_BRIGHTNESS = "qs_bottom_brightness";
+
+        /**
+         * Display cutout
+         * @hide
+         */
+        public static final String BRIGHTNESS_SLIDER_QS_UNEXPANDED = "brightness_slider_qs_unexpanded";
+
+        /** @hide */
+        private static final Validator BRIGHTNESS_SLIDER_QS_UNEXPANDED_VALIDATOR = new
+                SettingsValidators.InclusiveIntegerRangeValidator(0, 1);
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -7371,6 +7387,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_IMAGE);
             PRIVATE_SETTINGS.add(LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED);
             PRIVATE_SETTINGS.add(GESTURE_NAVBAR_SHOW);
+            PRIVATE_SETTINGS.add(BRIGHTNESS_SLIDER_QS_UNEXPANDED);
         }
 
         /**
@@ -7600,6 +7617,7 @@ public final class Settings {
             VALIDATORS.put(LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED, LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED_VALIDATOR);
             VALIDATORS.put(FOD_SOLID_COLOR, FOD_SOLID_COLOR_VALIDATOR);
             VALIDATORS.put(GESTURE_NAVBAR_SHOW,GESTURE_NAVBAR_SHOW_VALIDATOR);
+            VALIDATORS.put(BRIGHTNESS_SLIDER_QS_UNEXPANDED, BRIGHTNESS_SLIDER_QS_UNEXPANDED_VALIDATOR);
         }
 
         /**
