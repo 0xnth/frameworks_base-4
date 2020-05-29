@@ -17,6 +17,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
     <solid
-        android:color="#e5e5e5" />
+    android:color="@color/accent_tint_color_selector"
+    android:alpha="0.25" />
     <corners android:radius="2dp" />
 </shape>
